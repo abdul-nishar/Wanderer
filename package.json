@@ -1,0 +1,19 @@
+{
+  "name": "wanderer",
+  "version": "1.0.0",
+  "description": "Helps you find your next trip location.",
+  "default": "index.html",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "author": "Sheikh Abdul Nishar",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.9.2",
+    "parcel": "^2.9.2"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4"
+  }
+}

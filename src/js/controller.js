@@ -1,77 +1,10 @@
 import * as model from "./model.js";
 import landmarkView from "./views/landmarkView.js";
-import icons from "../img/icons.svg";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
-
-if (navigator.geolocation)
-  navigator.geolocation.getCurrentPosition(
-    function (position) {
-      let r = 2;
-      let marker = {};
-      let circle = {};
-      let { latitude, longitude } = position.coords;
-      const map = L.map("map").setView([latitude, longitude], 13);
-      L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(map);
-      const myIcon = new L.icon({
-        iconUrl: require("../img/marker-icon.png"),
-        iconSize: [20, 30],
-        iconAnchor: [10, 30],
-      });
-      marker = L.marker([latitude, longitude], {
-        icon: myIcon,
-      })
-        .addTo(map)
-        .openPopup();
-      circle = L.circle([latitude, longitude], { radius: r * 1000 }).addTo(map);
-
-      map.on("click", function (e) {
-        console.log(e.latlng);
-        latitude = e.latlng.lat;
-        longitude = e.latlng.lng;
-        if (marker != undefined) {
-          map.removeLayer(marker);
-          marker = L.marker([latitude, longitude], {
-            icon: myIcon,
-          })
-            .addTo(map)
-            .openPopup();
-        }
-
-        if (circle != undefined) {
-          map.removeLayer(circle);
-          circle = L.circle([latitude, longitude], {
-            radius: r * 1000,
-          }).addTo(map);
-        }
-      });
-
-      document
-        .querySelector(".radius")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          r = document.querySelector(".radius-input").value;
-          if (!r) r = 5;
-          console.log(r);
-          document.querySelector(".radius-input").innerHTML = "";
-          if (circle != undefined) {
-            map.removeLayer(circle);
-            circle = L.circle([latitude, longitude], {
-              radius: r * 1000,
-            }).addTo(map);
-          }
-        });
-    },
-    function () {
-      alert("Could not get your location");
-    }
-  );
+import mapView from "./views/mapView.js";
 
 /**
- * Controls the data flow between model, controller and landmarkView.js
+ * Handler function to be called when page is loaded or hash is changed which changes the current landmark view
+ * @async
  */
 
 const controlLoadLandmark = async function () {
@@ -93,6 +26,42 @@ const controlLoadLandmark = async function () {
   }
 };
 
-["hashchange", "load"].forEach((event) =>
-  window.addEventListener(event, controlLoadLandmark)
-);
+/**
+ * Handler function to be called when page is loaded to display the map
+ */
+const controlMap = function () {
+  try {
+    // Rendering the spinner
+    mapView.renderSpinner();
+    // Loads the current location on the map
+    mapView.generateMap(model.loadMap);
+  } catch (err) {
+    console.error(`${err} 🔴🔴`);
+  }
+};
+
+/**
+ * Handler function to be called when user submits the new radius
+ */
+const controlMapRadius = function () {
+  try {
+    // Storing the return value from the getRadius method
+    const areaRadius = mapView.getRadius();
+    // Re-renders the circle with new radius
+    model.changeMapRadius(areaRadius);
+  } catch (err) {
+    console.error(`${err} 🔴🔴`);
+  }
+};
+
+/**
+ * Calls the functions to be executed at the start of the page-load
+ * Uses Publisher-Subscriber pattern
+ */
+const init = function () {
+  landmarkView.addHandlerRender(controlLoadLandmark);
+  mapView.addHandler(controlMap);
+  mapView.addHandlerRadiusChange(controlMapRadius);
+};
+
+init();

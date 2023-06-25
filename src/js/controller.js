@@ -1,10 +1,10 @@
 import * as model from "./model.js";
 import landmarkView from "./views/landmarkView.js";
-import icons from "../img/icons.svg";
 import mapView from "./views/mapView.js";
 
 /**
- * Controls the data flow between model, controller and landmarkView.js
+ * Handler function to be called when page is loaded or hash is changed which changes the current landmark view
+ * @async
  */
 
 const controlLoadLandmark = async function () {
@@ -26,9 +26,42 @@ const controlLoadLandmark = async function () {
   }
 };
 
+/**
+ * Handler function to be called when page is loaded to display the map
+ */
+const controlMap = function () {
+  try {
+    // Rendering the spinner
+    mapView.renderSpinner();
+    // Loads the current location on the map
+    mapView.generateMap(model.loadMap);
+  } catch (err) {
+    console.error(`${err} 🔴🔴`);
+  }
+};
+
+/**
+ * Handler function to be called when user submits the new radius
+ */
+const controlMapRadius = function () {
+  try {
+    // Storing the return value from the getRadius method
+    const areaRadius = mapView.getRadius();
+    // Re-renders the circle with new radius
+    model.changeMapRadius(areaRadius);
+  } catch (err) {
+    console.error(`${err} 🔴🔴`);
+  }
+};
+
+/**
+ * Calls the functions to be executed at the start of the page-load
+ * Uses Publisher-Subscriber pattern
+ */
 const init = function () {
   landmarkView.addHandlerRender(controlLoadLandmark);
-  // mapView._addHandlerClick(mapView._changeMarkerPosition);
+  mapView.addHandler(controlMap);
+  mapView.addHandlerRadiusChange(controlMapRadius);
 };
 
 init();

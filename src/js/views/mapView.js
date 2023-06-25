@@ -3,101 +3,62 @@ import View from "./View.js";
 import "leaflet/dist/leaflet.css";
 import { MAP_SCALE } from "../config.js";
 
+/**
+ * Class representing the map View
+ * @extends View
+ */
 class MapView extends View {
+  /**
+   * @private fields
+   */
+  _parentEl = document.querySelector("#map");
   _formRadius = document.querySelector(".radius");
   _radiusInput = document.querySelector(".radius-input");
-  _latitude;
-  _longitude;
-  _areaRadius;
-  _marker;
-  _circle;
-  _map;
+  _data;
 
-  constructor() {
-    super();
-    this._generateMap();
-    // this._addHandlerClick(this._changeMarkerPosition);
-    this._addHandlerRadiusChange();
+  /**
+   * Handles the loading of the map
+   * @param {Function} handler
+   */
+  addHandler(handler) {
+    window.addEventListener("load", handler);
+    // window.addEventListener("load", function () {
+    //   if (localStorage.getItem("hasCodeRunBefore") === null) {
+    //     handler();
+    //     localStorage.setItem("hasCodeRunBefore", true);
+    //   }
+    // });
   }
 
-  _changeMarkerPosition(e) {
-    console.log(e);
-    this._latitude = e.latlng.lat;
-    this._longitude = e.latlng.lng;
-    if (this._marker != undefined) {
-      this._map.removeLayer(this._marker);
-      this._marker = L.marker([this._latitude, this._longitude], {
-        icon: myIcon,
-      })
-        .addTo(this._map)
-        .openPopup();
-    }
-
-    if (this._circle != undefined) {
-      this._map.removeLayer(this._circle);
-      this._circle = L.circle([this._latitude, this._longitude], {
-        radius: this._areaRadius * 1000,
-      }).addTo(this._map);
-    }
-  }
-
-  _addHandlerClick(handler) {
-    console.log(this);
-    this._map.on("click", handler);
-  }
-
-  _generateMap() {
+  /**
+   * Calls the handler function with the geolocation object if the user allows else alerts
+   * @param {Function} handler
+   */
+  generateMap(handler) {
     if (navigator.geolocation)
-      navigator.geolocation.getCurrentPosition(
-        function (position) {
-          this._areaRadius = 3;
-          this._latitude = position.coords.latitude;
-          this._longitude = position.coords.longitude;
-
-          this._map = L.map("map").setView(
-            [this._latitude, this._longitude],
-            MAP_SCALE
-          );
-          L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
-            attribution:
-              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          }).addTo(this._map);
-          const myIcon = new L.icon({
-            iconUrl: require("../../img/marker-icon.png"),
-            iconSize: [20, 30],
-            iconAnchor: [10, 30],
-          });
-          this._marker = L.marker([this._latitude, this._longitude], {
-            icon: myIcon,
-          })
-            .addTo(this._map)
-            .openPopup();
-          this._circle = L.circle([this._latitude, this._longitude], {
-            radius: this._areaRadius * 1000,
-          }).addTo(this._map);
-        }.bind(this),
-        function () {
-          alert("Could not get your location");
-        }
-      );
+      navigator.geolocation.getCurrentPosition(handler, function () {
+        alert("Could not get your location");
+      });
   }
 
-  _addHandlerRadiusChange() {
-    this._formRadius.addEventListener(
-      "submit",
-      function (e) {
-        e.preventDefault();
-        this._areaRadius = this._radiusInput.value;
-        if (!this._areaRadius) this._areaRadius = 5;
-        this._radiusInput.value = "";
-        if (this._circle != undefined) {
-          this._map.removeLayer(this._circle);
-          this._circle = L.circle([this._latitude, this._longitude], {
-            radius: this._areaRadius * 1000,
-          }).addTo(this._map);
-        }
-      }.bind(this)
-    );
+  /**
+   * Handles the change of circle radius on submit event
+   */
+  addHandlerRadiusChange(handler) {
+    this._formRadius.addEventListener("submit", function (e) {
+      e.preventDefault();
+      handler();
+    });
+  }
+
+  /**
+   * Returns the radius from the form and clears the form
+   * @returns {number} radius value from the user input field
+   */
+  getRadius() {
+    const radius = this._radiusInput.value;
+    this._radiusInput.value = "";
+    return radius;
   }
 }
 

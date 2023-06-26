@@ -1,68 +1,58 @@
-.recipe {
-  background-color: $color-grey-light-1;
-
-  ///////////
-  // FIGURE
-  &__fig {
-    height: 32rem;
-    position: relative;
-    // transform: scale(1.04) translateY(-1px);
-    transform-origin: top;
-
-    &::before {
-      content: "";
-      display: block;
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0;
-    }
-  }
-
-  &__img {
-    width: 100%;
-    display: block;
-    height: 100%;
-    object-fit: cover;
-  }
+.landmark {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  grid-template-rows: 0.2fr 0.4fr 3fr 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
 
   &__title {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 20%) skewY(-6deg);
-    color: #fff;
-    font-weight: 700;
-    font-size: 3.25rem;
-    text-transform: uppercase;
-    width: 50%;
-    line-height: 1.95;
-    text-align: center;
+    grid-area: 1 / 1 / 2 / 3;
+    background-color: #f9f5f3;
 
-    span {
-      -webkit-box-decoration-break: clone;
-      box-decoration-break: clone;
-      padding: 1.3rem 2rem;
-      background-image: linear-gradient(
-        to right bottom,
-        $color-grad-1,
-        $color-grad-2
-      );
+    h1 {
+      position: relative;
+      margin: 0;
+      font-family: "Nunito Sans", sans-serif;
+      -webkit-transition: all 0.4s ease 0s;
+      -o-transition: all 0.4s ease 0s;
+      transition: all 0.4s ease 0s;
+      font-size: 26px;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      padding-bottom: 13px;
     }
 
-    @media only screen and (max-width: $bp-medium) {
-      width: 70%;
+    h1:before {
+      background-color: $color-primary;
+      content: "";
+      display: block;
+      height: 0.3rem;
+      width: 15rem;
+      margin-bottom: 5px;
+    }
+
+    h1:after {
+      background-color: $color-primary;
+      content: "";
+      display: block;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      height: 0.3rem;
+      width: 15rem;
+      margin-bottom: 0;
     }
   }
 
-  ///////////
-  // DETAILS
+  // ICONS
   &__details {
+    grid-area: 2 / 1 / 3 / 3;
     display: flex;
     align-items: center;
-    padding: 7.5rem 8rem 3.5rem 8rem;
+    padding: 1rem 4rem 2rem 4rem;
   }
 
   &__info {
@@ -77,8 +67,8 @@
   }
 
   &__info-icon {
-    height: 2.35rem;
-    width: 2.35rem;
+    height: 3rem;
+    width: 3rem;
     fill: $color-primary;
     margin-right: 1.15rem;
   }
@@ -86,6 +76,12 @@
   &__info-data {
     margin-right: 0.5rem;
     font-weight: 700;
+  }
+
+  .btn--bookmark {
+    border-radius: 87px;
+    background: #15aaff;
+    box-shadow: -8px 8px 16px #0e70a8, 8px -8px 16px #1ce4ff;
   }
 
   &__info-buttons {
@@ -114,61 +110,49 @@
     }
   }
 
-  ///////////
-  // INGREDIENTS
-  &__ingredients {
-    padding: 5rem 8rem;
-    font-size: 1.6rem;
-    line-height: 1.4;
-    background-color: $color-grey-light-2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  // IMAGE GALLERY
+  &__image-gallery {
+    grid-area: 3 / 1 / 4 / 2;
+  }
+  // WIKI DATA
+  &__wiki-data {
+    grid-area: 3 / 2 / 4 / 3;
   }
 
-  &__ingredient-list {
+  // ADDRESS
+
+  &__address {
+    grid-area: 4 / 1 / 5 / 3;
+    background-color: #f9f5f3;
+
+    > h2 {
+      margin-top: 20px;
+    }
+  }
+
+  &__address-list {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2.5rem 3rem;
     list-style: none;
   }
 
-  &__ingredient {
+  &__address_detail {
     display: flex;
+    padding-left: 10rem;
+    font-size: 1.4rem;
+
+    &_nature {
+      font-weight: bolder;
+    }
   }
 
-  &__icon {
-    height: 2rem;
-    width: 2rem;
-    fill: $color-primary;
-    margin-right: 1.1rem;
-    flex: 0 0 auto;
-    margin-top: 0.1rem;
-  }
-
-  &__quantity {
+  &__address_value {
     margin-right: 0.5rem;
     flex: 0 0 auto;
   }
 
-  ///////////
-  // DIRECTIONS
-  &__directions {
-    padding: 5rem 10rem;
-    padding-bottom: 5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  &__directions-text {
-    font-size: 1.7rem;
-    text-align: center;
-    margin-bottom: 3.5rem;
-    color: $color-grey-dark-2;
-  }
-
-  &__publisher {
-    font-weight: 700;
+  @media only screen and (max-width: $bp-medium) {
+    width: 70%;
   }
 }

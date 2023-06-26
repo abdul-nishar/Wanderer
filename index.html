@@ -22,7 +22,7 @@
     <header class="header">
       <img src="src/img/logo.png" alt="Logo" class="header__logo" />
       <form class="search">
-        <input type="text" class="search__field" placeholder="Search mountains, museums, etc." />
+        <input type="text" class="search__field" placeholder="Search places, radius of area to look within" />
         <button class="btn search__btn">
           <svg class="search__icon">
             <use href="src/img/icons.svg#icon-search"></use>
@@ -82,13 +82,11 @@
     </header>
 
     <div class="search-results">
-      <div id="map"></div>
-      <form class="radius">
-        <input class="radius-input" type="number" placeholder="Radius of search in km" min="0" max="500" />
-        <input class="submit-btn" type="submit" />
-      </form>
-      <a href="#W48950983">Location 1</a>
-      <a href="#W668300429">Location 2</a>
+      <a href="#513b0ebf1219832540596766bf43205b4840f00102f901648c870100000000920309414c44492053c3bc64">Location
+        1</a>
+      <a
+        href="#512a07697c158f254059d94ad83cb35c4840f00102f9018e84b307000000009203154e6574746f204d61726b656e2d446973636f756e74">Location
+        2</a>
       <ul class="results">
 
         <!-- 
@@ -125,12 +123,17 @@
             </svg>
           </button> -->
       </div>
-
-
-
     </div>
 
-    <div class="recipe">
+
+    <div id="map"></div>
+    <!-- <form class="radius">
+      <input class="radius-input" type="number" placeholder="Radius of search in km" min="0" max="500" />
+      <input class="submit-btn" type="submit" />
+    </form> -->
+
+
+    <div class="landmark">
       <div class="message">
         <div>
           <svg>

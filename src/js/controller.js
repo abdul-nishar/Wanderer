@@ -1,6 +1,7 @@
 import * as model from "./model.js";
 import landmarkView from "./views/landmarkView.js";
 import mapView from "./views/mapView.js";
+import searchView from "./views/searchView.js";
 
 /**
  * Handler function to be called when page is loaded or hash is changed which changes the current landmark view
@@ -40,19 +41,35 @@ const controlMap = function () {
   }
 };
 
-/**
- * Handler function to be called when user submits the new radius
- */
-const controlMapRadius = function () {
-  try {
-    // Storing the return value from the getRadius method
-    const areaRadius = mapView.getRadius();
-    // Re-renders the circle with new radius
-    model.changeMapRadius(areaRadius);
-  } catch (err) {
-    console.error(`${err} 🔴🔴`);
-  }
-};
+// /**
+//  * Handler function to be called when user submits the new radius
+//  */
+// const controlMapRadius = function () {
+//   try {
+//     // Storing the return value from the getRadius method
+//     const areaRadius = mapView.getRadius();
+//     // Re-renders the circle with new radius
+//     model.changeMapRadius(areaRadius);
+//   } catch (err) {
+//     console.error(`${err} 🔴🔴`);
+//   }
+// };
+
+// const controlSearchResults = async function () {
+//   try {
+//     // Get search query
+//     const query = searchView.getQuery();
+//     if (!query) return;
+//     // Load search query
+//     await model.loadSearchResults(query);
+//     // Render search query
+//     // resultsView.render(model.getSearchResultsPage());
+//     // Render initial pagination buttons
+//     // paginationView.render(model.state.search);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 /**
  * Calls the functions to be executed at the start of the page-load
@@ -61,7 +78,8 @@ const controlMapRadius = function () {
 const init = function () {
   landmarkView.addHandlerRender(controlLoadLandmark);
   mapView.addHandler(controlMap);
-  mapView.addHandlerRadiusChange(controlMapRadius);
+  // mapView.addHandlerRadiusChange(controlMapRadius);
+  // searchView.addHandlerSearch(controlSearchResults);
 };
 
 init();

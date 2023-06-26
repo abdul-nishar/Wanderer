@@ -9,7 +9,7 @@ class LandmarkView extends View {
   /**
    *@private
    */
-  _parentEl = document.querySelector(".recipe");
+  _parentEl = document.querySelector(".landmark");
 
   /**
    * Creates markup for the landMarkView using the state data
@@ -18,82 +18,67 @@ class LandmarkView extends View {
    */
   _generateMarkup() {
     return `
-    <figure class="recipe__fig">
-        <img src=${this._data.image} alt=${
-      this._data.name
-    } class="recipe__img" />
-        <h1 class="recipe__title">
-            <span>${this._data.name.split(",")[0]}</span>
-        </h1>
-    </figure>
-
-    <div class="recipe__details">
-        <div class="recipe__info">
-        <svg class="recipe__info-icon">
-            <use href="${icons}#icon-globe"></use>
+    <div class="landmark__title"><h1>${this._data.name}</h1></div>
+    
+    <div class="landmark__details">
+      <div class="landmark__info">
+        <svg class="landmark__info-icon">
+          <use href="${icons}#latitude"></use>
         </svg>
-        (
-        <span class="recipe__info-data recipe__info-data--minutes">${
-          this._data.longitude
-        },</span>
-        <span class="recipe__info-data recipe__info-data--minutes">${
+        <span class="landmark__info-data landmark__info-data--latitude">${
           this._data.latitude
-        })</span>
-        
-        </div>
-        <div class="recipe__info">
-            <svg class="recipe__info-icon">
-                <use href="${icons}#icon-walk"></use>
-            </svg>
-            <span class="recipe__info-data recipe__info-data--people">4</span>
-            <span class="recipe__info-text">km</span>
+        }°</span>
+      </div>
+      <div class="landmark__info">
+        <svg class="landmark__info-icon">
+          <use href="${icons}#longitude"></use>
+        </svg>
+        <span class="landmark__info-data landmark__info-data--longitude">${
+          this._data.longitude
+        }°</span>
+      </div>
 
-        </div>
-
-        <div class="recipe__user-generated">
+      <button class="btn--round btn--delete ${this._data.key ? "" : "hidden"}">
         <svg>
-            <use href="${icons}#icon-user"></use>
-        </svg>
-        </div>
-        <button class="btn--round">
+          <use href="${icons}#icon-delete"></use>
+        </svg> 
+      </button>
+
+      <div class="landmark__user-generated ">
+        <svg>
+          <use href="${icons}#icon-user"></use>
+        </svg> 
+      </div>
+    
+      <button class="btn--round btn--bookmark">
         <svg class="">
-            <use href="${icons}#icon-bookmark-fill"></use>
+          <use href="${icons}#icon-bookmark${
+      this._data.bookmarked ? "-fill" : ""
+    }"></use>
         </svg>
-        </button>
+      </button>
     </div>
 
-    <div class="recipe__directions">
-        <h2 class="heading--2">Description</h2>
-        <p class="recipe__directions-text">${this._data.description}</p>
-        <a
-        class="btn--small recipe__btn"
-        href="${this._data.sourceUrl}"
-        target="_blank"
-        >
-            <span>Know More</span>
-            <svg class="search__icon">
-                <use href="${icons}#icon-arrow-right"></use>
-            </svg>
-        </a>
+    <div class="landmark__image-gallery">
     </div>
+    <div class="landmark__wiki-data">
+    </div>
+    <div class="landmark__address">
+      <h2 class="heading--2">ADDRESS DETAILS</h2>
+      <ul class="landmark__address-list">
+       ${this._data.address.map(this._generateMarkupAddressDetail).join("")}
+      </ul>
+    </div>
+    `;
+  }
 
-    <div class="recipe__ingredients">
-          <h2 class="heading--2">Address Information</h2>
-          <ul class="recipe__ingredient-list">
-            ${Object.entries(this._data.address)
-              .map((element) => {
-                return `<li class="recipe__ingredient">
-                <div class="recipe__quantity"><strong>${element[0]}</strong></div>
-                <div class="recipe__description">
-                :
-                <span class="recipe__unit">${element[1]}</span>
-                </div>
-            </li>`;
-              })
-              .join("")}
-          </ul>
-        </div>
-`;
+  _generateMarkupAddressDetail(element) {
+    return `
+      <li class="landmark__address_detail">
+        <div class="landmark__address_detail_nature">${element[0]}</div>
+          <span class="landmark__address_value"> : ${element[1]}</span>
+      </li>
+      `;
   }
 
   addHandlerRender(handler) {

@@ -31,7 +31,9 @@ export const AJAX = async function (url, uploadData = undefined) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(uploadData),
         })
-      : fetch(url);
+      : fetch(url, {
+          method: "GET",
+        });
     // Awaiting the promise which gets resolved first
     const res = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]);
 

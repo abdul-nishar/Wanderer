@@ -1,4 +1,4 @@
-import { API_URL, RES_PER_PAGE, KEY } from "./config.js";
+import { API_URL_PLACES, API_URL_PLACES_DETAILS, KEY } from "./config.js";
 import { AJAX, removeJSON } from "./helpers.js";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -13,12 +13,12 @@ export const state = {
   landmark: {},
   mapVariables: {},
   //   bookmarks: [],
-  //   search: {
-  //     query: "",
-  //     page: 1,
-  //     resultsPerPage: RES_PER_PAGE,
-  //     recipes: [],
-  //   },
+  search: {
+    query: "",
+    page: 1,
+    // resultsPerPage: RES_PER_PAGE,
+    landmarks: [],
+  },
 };
 
 /**
@@ -29,14 +29,19 @@ export const state = {
 
 const createRecipeObject = function (data) {
   return {
-    id: data.xid,
+    id: data.place_id,
     name: data.name,
-    longitude: data.point.lon,
-    latitude: data.point.lat,
-    image: data.preview.source,
-    address: data.address,
-    description: data.wikipedia_extracts.text,
-    sourceUrl: data.wikipedia,
+    longitude: data.lon,
+    latitude: data.lat,
+    address: [
+      ["House Number", data.housenumber],
+      ["Street Name", data.street],
+      ["State", data.state],
+      ["Post Code", data.postcode],
+      ["City", data.city],
+      ["Country", data.country],
+    ],
+    type: data.commercial.type,
   };
 };
 
@@ -49,10 +54,13 @@ const createRecipeObject = function (data) {
 export const loadLocation = async function (id) {
   try {
     // Awaiting the API response
-    const data = await AJAX(`${API_URL}/xid/${id}?apikey=${KEY}`);
+    const data = await AJAX(
+      `${API_URL_PLACES_DETAILS}?features=details,wiki_and_media.image&id=${id}&apiKey=${KEY}`
+    );
 
     // Storing the awaited response in the state by creating a new object
-    state.landmark = createRecipeObject(data);
+    state.landmark = createRecipeObject(data.features[0].properties);
+    console.log(data);
   } catch (err) {
     console.error(`${err} 🔴🔴`);
     throw err;
@@ -152,4 +160,31 @@ export const _changeMarkerPosition = function () {
       }).addTo(data.map);
     }
   });
+};
+
+export const loadSearchResults = async function (query) {
+  try {
+    console.log(query);
+    const data = await AJAX(
+      `${API_URL_PLACES}/autosuggest?name=${query}&radius=${
+        state.mapVariables.areaRadius * 1000
+      }&lon=${state.mapVariables.longitude}&lat=${
+        state.mapVariables.latitude
+      }&limit=30&apikey=${KEY}`
+    );
+    state.search.query = query;
+    console.log(data);
+    // state.search.landmarks = data.data.recipes.map((rec) => {
+    //   return {
+    //     id: rec.id,
+    //     title: rec.title,
+    //     publisher: rec.publisher,
+    //     image: rec.image_url,
+    //     ...(rec.key && { key: rec.key }),
+    //   };
+    // });
+  } catch (err) {
+    console.error(`${err} 🔴🔴`);
+    throw err;
+  }
 };

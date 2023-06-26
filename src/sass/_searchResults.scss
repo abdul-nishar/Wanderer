@@ -1,30 +1,8 @@
 .search-results {
+  grid-area: list;
   padding: 0 0 3rem;
   display: flex;
   flex-direction: column;
-}
-
-#map {
-  height: 200px;
-}
-
-.radius-input {
-  width: 75%;
-  display: inline-block;
-  border-color: #15aaff;
-  border-radius: 4px;
-  margin: 3px;
-  padding: 0 0 0 4px;
-}
-
-.submit-btn {
-  margin-left: 4px;
-  width: 20%;
-  display: inline-block;
-  border-radius: 10px;
-  padding: 0 0 0 4px;
-  background: $gradient;
-  color: white;
 }
 
 .results {

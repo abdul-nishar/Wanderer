@@ -1,4 +1,10 @@
-import { API_URL_PLACES, API_URL_PLACES_DETAILS, KEY } from "./config.js";
+import {
+  API_URL_PLACES,
+  API_URL_PLACES_DETAILS,
+  KEY,
+  SERPAPI_KEY,
+  SERPAPI_URL,
+} from "./config.js";
 import { AJAX, removeJSON } from "./helpers.js";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -10,7 +16,9 @@ import { MAP_SCALE } from "./config.js";
  */
 
 export const state = {
-  landmark: {},
+  landmark: {
+    images: [],
+  },
   mapVariables: {},
   //   bookmarks: [],
   search: {
@@ -60,7 +68,10 @@ export const loadLocation = async function (id) {
 
     // Storing the awaited response in the state by creating a new object
     state.landmark = createRecipeObject(data.features[0].properties);
-    console.log(data);
+    const imageData = await AJAX(
+      `${SERPAPI_URL}?engine=google_images&q=${state.landmark.name}&api_key=${SERPAPI_KEY}`
+    );
+    console.log(imageData);
   } catch (err) {
     console.error(`${err} 🔴🔴`);
     throw err;

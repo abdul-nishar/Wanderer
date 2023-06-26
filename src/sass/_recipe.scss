@@ -1,7 +1,7 @@
 .landmark {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
-  grid-template-rows: 0.2fr 0.4fr 3fr 1fr;
+  grid-template-rows: 0.2fr 0.4fr 2.5fr 1.4fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
 
@@ -52,7 +52,7 @@
     grid-area: 2 / 1 / 3 / 3;
     display: flex;
     align-items: center;
-    padding: 1rem 4rem 2rem 4rem;
+    padding: 1rem 4rem 1rem 4rem;
   }
 
   &__info {
@@ -113,10 +113,12 @@
   // IMAGE GALLERY
   &__image-gallery {
     grid-area: 3 / 1 / 4 / 2;
+    background-color: black;
   }
   // WIKI DATA
   &__wiki-data {
     grid-area: 3 / 2 / 4 / 3;
+    background-color: red;
   }
 
   // ADDRESS
@@ -124,6 +126,7 @@
   &__address {
     grid-area: 4 / 1 / 5 / 3;
     background-color: #f9f5f3;
+    padding-top: 3rem;
 
     > h2 {
       margin-top: 20px;
@@ -133,7 +136,7 @@
   &__address-list {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2.5rem 3rem;
+    gap: 4.5rem 3rem;
     list-style: none;
   }
 

@@ -1,6 +1,8 @@
 import {
   API_URL_PLACES,
   API_URL_PLACES_DETAILS,
+  GOOGLE_CUSTOM_SEARCH_URL,
+  GOOGLE_SEARCH_KEY,
   KEY,
   SERPAPI_KEY,
   SERPAPI_URL,
@@ -54,24 +56,35 @@ const createRecipeObject = function (data) {
 };
 
 /**
- * Makes an API request to the server and stores the result in the state object
+ * Makes multiple API requests to the server and stores the result in the state object
  * @param {*} id
  * @async
  */
 
 export const loadLocation = async function (id) {
   try {
-    // Awaiting the API response
+    // Awaiting the API response - API Call for location details
     const data = await AJAX(
       `${API_URL_PLACES_DETAILS}?features=details,wiki_and_media.image&id=${id}&apiKey=${KEY}`
     );
 
     // Storing the awaited response in the state by creating a new object
     state.landmark = createRecipeObject(data.features[0].properties);
+    state.landmark.images = [];
+
+    // API Call for images
     const imageData = await AJAX(
-      `${SERPAPI_URL}?engine=google_images&q=${state.landmark.name}&api_key=${SERPAPI_KEY}`
+      `${GOOGLE_CUSTOM_SEARCH_URL}?key=${GOOGLE_SEARCH_KEY}&cx=368b63b3f469a43b7&q=${state.landmark.name}&searchType=image`
     );
-    console.log(imageData);
+    for (let i = 0; i < 9; i++) {
+      state.landmark.images.push(imageData.items[i].link);
+    }
+
+    // API Call for wikipedia Data
+    const wikiData = await AJAX(
+      `${GOOGLE_CUSTOM_SEARCH_URL}?key=${GOOGLE_SEARCH_KEY}&cx=368b63b3f469a43b7&q=${state.landmark.name}&siteSearch=https://en.wikipedia.org&siteSearchFilter=i`
+    );
+    state.landmark.wikiData = wikiData;
   } catch (err) {
     console.error(`${err} 🔴🔴`);
     throw err;

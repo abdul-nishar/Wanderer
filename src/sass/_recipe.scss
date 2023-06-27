@@ -1,15 +1,16 @@
 .landmark {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  grid-template-rows: 0.2fr 0.4fr 2.5fr 1.4fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.25fr 0.4fr 3.6fr 1fr 1.4fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
 
   &__title {
-    grid-area: 1 / 1 / 2 / 3;
-    background-color: #f9f5f3;
+    grid-area: 1 / 1 / 2 / 2;
 
     h1 {
+      padding: 1rem 0;
+      color: #fff;
       position: relative;
       margin: 0;
       font-family: "Nunito Sans", sans-serif;
@@ -21,38 +22,23 @@
       text-align: center;
       letter-spacing: 1px;
       text-transform: uppercase;
+      text-shadow: #918581 1px 1px;
       white-space: nowrap;
-      padding-bottom: 13px;
-    }
-
-    h1:before {
-      background-color: $color-primary;
-      content: "";
-      display: block;
-      height: 0.3rem;
-      width: 15rem;
-      margin-bottom: 5px;
-    }
-
-    h1:after {
-      background-color: $color-primary;
-      content: "";
-      display: block;
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      height: 0.3rem;
-      width: 15rem;
-      margin-bottom: 0;
+      background-image: linear-gradient(
+        to right bottom,
+        $color-grad-1,
+        $color-grad-2
+      );
     }
   }
 
   // ICONS
   &__details {
-    grid-area: 2 / 1 / 3 / 3;
+    background-color: #f9f5f3;
+    grid-area: 2 / 1 / 3 / 2;
     display: flex;
     align-items: center;
-    padding: 1rem 4rem 1rem 4rem;
+    padding: 0 4rem 1rem 4rem;
   }
 
   &__info {
@@ -111,33 +97,81 @@
   }
 
   // IMAGE GALLERY
-  &__image-gallery {
-    grid-area: 3 / 1 / 4 / 2;
-    background-color: black;
-  }
-  // WIKI DATA
-  &__wiki-data {
-    grid-area: 3 / 2 / 4 / 3;
-    background-color: red;
-  }
 
-  // ADDRESS
+  &__image {
+    &_gallery_container {
+      background-color: #f2efee;
+      grid-area: 3 / 1 / 4 / 2;
+      padding: 2rem 0.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+      list-style: none;
+    }
 
-  &__address {
-    grid-area: 4 / 1 / 5 / 3;
-    background-color: #f9f5f3;
-    padding-top: 3rem;
+    &_element {
+      padding: 5px;
+      margin: 5px auto;
+      float: left;
+      width: 17rem;
+      transition: transform 0.2s;
+      border-right: solid 2px #ccc;
+      border-bottom: solid 2px #ccc;
 
-    > h2 {
-      margin-top: 20px;
+      &:hover {
+        border: 1px solid $color-primary;
+        -ms-transform: scale(1.5); /* IE 9 */
+        -webkit-transform: scale(1.5); /* Safari 3-8 */
+        transform: scale(1.5);
+      }
+
+      & img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
     }
   }
 
-  &__address-list {
+  // WIKI DATA
+  &__wiki_data {
+    grid-area: 4 / 1 / 5 / 2;
+    padding-left: 1rem;
+    background-color: #f9f5f3;
+    border-bottom: solid #d3c7c3;
+
+    & h2 {
+      margin-top: 20px;
+    }
+
+    &_text {
+      padding: 0 2.3rem 0 3rem;
+    }
+  }
+
+  &__search_btn {
+    width: 16rem;
+    margin: 2rem auto;
+  }
+  // ADDRESS
+
+  &__address {
+    grid-area: 5 / 1 / 6 / 2;
+    background-color: #f9f5f3;
+    padding-top: 1rem;
+
+    > h2 {
+      margin-top: 10px;
+    }
+  }
+
+  &__address_list {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4.5rem 3rem;
     list-style: none;
+    margin-top: 4rem;
   }
 
   &__address_detail {

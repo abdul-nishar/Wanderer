@@ -1,13 +1,13 @@
 .search-results {
   grid-area: list;
-  padding: 0 0 3rem;
+  padding: 1rem 0 3rem;
   display: flex;
   flex-direction: column;
   border-right: solid #d3c7c3;
 }
 
 .results {
-  margin-top: auto;
+  margin-top: 0;
   list-style: none;
   margin-bottom: 2rem;
 }

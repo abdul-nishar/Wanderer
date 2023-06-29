@@ -22,7 +22,23 @@
     <header class="header">
       <img src="src/img/logo.png" alt="Logo" class="header__logo" />
       <form class="search">
-        <input type="text" class="search__field" placeholder="Search places, radius of area to look within" />
+        <div class="dropdown">
+          <div class="default_option">Select Search Type</div>
+          <ul class="dropdown_list">
+            <li>accommodation</li>
+            <li>accommodation.hotel</li>
+            <li>accommodation.hut</li>
+            <li>accommodation.apartment</li>
+            <li>accommodation.chalet</li>
+            <li>accommodation.guest_house</li>
+            <li>accommodation.hostel</li>
+            <li>accommodation.motel</li>
+            <li>activity</li>
+            <li>activity.community_center</li>
+
+          </ul>
+        </div>
+        <input type=number class="search__field" placeholder="Radius" max="50" min="0" />
         <button class="btn search__btn">
           <svg class="search__icon">
             <use href="src/img/icons.svg#icon-search"></use>
@@ -82,13 +98,15 @@
     </header>
 
     <div class="search-results">
-      <a href="#513b0ebf1219832540596766bf43205b4840f00102f901648c870100000000920309414c44492053c3bc64">Location
-        1</a>
-      <a
-        href="#512a07697c158f254059d94ad83cb35c4840f00102f9018e84b307000000009203154e6574746f204d61726b656e2d446973636f756e74">Location
-        2</a>
       <ul class="results">
-
+        <div class="message">
+          <div>
+            <svg>
+              <use href="src/img/icons.svg#icon-smile"></use>
+            </svg>
+          </div>
+          <p>Start by searching for a location or a city. Have fun!</p>
+        </div>
         <!-- 
           <li class="preview">
             <a class="preview__link preview__link--active" href="#23456">
@@ -140,7 +158,7 @@
             <use href="src/img/icons.svg#icon-smile"></use>
           </svg>
         </div>
-        <p>Start by searching for a location or a city. Have fun!</p>
+        <p>Start by selecting for a result. Good Luck!</p>
       </div>
 
       <!-- <div class="spinner">

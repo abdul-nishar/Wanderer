@@ -1,9 +1,9 @@
 .header {
   grid-area: head;
   background-color: $color-grey-light-1;
-  display: flex;
+  display: grid;
   align-items: center;
-  justify-content: space-between;
+  grid-template-columns: 0.6fr 1.1fr 0.8fr;
 
   &__logo {
     margin-left: 4rem;
@@ -15,10 +15,64 @@
 .search {
   background-color: #fff;
   border-radius: 10rem;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1.6fr 0.6fr 1fr;
+  column-gap: 10px;
   align-items: center;
-  padding-left: 3rem;
+  // padding-left: 3rem;
+  margin-right: 3rem;
   transition: all 0.3s;
+  z-index: 2;
+
+  & .dropdown {
+    font-size: 1.7rem;
+    color: $color-grey-light-3;
+    cursor: pointer;
+    border-right: solid 2px $color-grey-light-3;
+    position: relative;
+
+    .default_option {
+      text-align: center;
+    }
+
+    ul {
+      position: absolute;
+      top: 5rem;
+      left: 1rem;
+      z-index: 1;
+      width: auto;
+      background-color: #fff;
+      list-style: none;
+      border-radius: 1rem;
+      box-shadow: 8px 8px 6px -10px #b3c6ff;
+      padding: 2rem;
+      display: none;
+      height: 20rem;
+      overflow: auto;
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      &:active {
+        display: block;
+      }
+      li {
+        padding-bottom: 20px;
+        padding-left: 2.8rem;
+      }
+
+      li:last-child {
+        padding-bottom: 0;
+      }
+
+      li:hover {
+        color: $color-primary;
+      }
+    }
+  }
 
   &:focus-within {
     transform: translateY(-2px);
@@ -31,7 +85,8 @@
     font-family: inherit;
     color: inherit;
     font-size: 1.7rem;
-    width: 30rem;
+    width: 7rem;
+    text-align: center;
 
     &:focus {
       outline: none;

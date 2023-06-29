@@ -18,9 +18,9 @@ class LandmarkView extends View {
    */
   _generateMarkup() {
     return `
-    <div class="landmark__title rise"><h1>${this._data.name}(${
+    <div class="landmark__title rise"><h1>${this._data.name}${
       this._data.type
-    })</h1></div>
+    }</h1></div>
     
     <div class="landmark__details">
       <div class="landmark__info">
@@ -64,22 +64,23 @@ class LandmarkView extends View {
     <div class="landmark__image_gallery_container">
        ${this._data.images.map(this._generateMarkupImageGallery).join("")}
     </div>
-    <div class="landmark__wiki_data">
-      <h2 class="heading--2">DESCRIPTION</h2>
-      <h2 class="landmark__wiki_data_text">${
-        this._data.wikiData.items[0].htmlSnippet
-      }</h2>
-      <a
-      class="btn--small landmark__search_btn"
-      href=${this._data.wikiData.items[0].link}
-      target="_blank"
-    >
-      <span>Read More</span>
-      <svg class="landmark__search_icon">
-        <use href="${icons}#icon-arrow-right"></use>
-      </svg>
-    </a>
-    </div>
+    `// <div class="landmark__wiki_data">
+    //   <h2 class="heading--2">DESCRIPTION</h2>
+    //   <h2 class="landmark__wiki_data_text">${
+    //     this._data.wikiData.items[0].htmlSnippet
+    //   }</h2>
+    //   <a
+    //   class="btn--small landmark__search_btn"
+    //   href=${this._data.wikiData.items[0].link}
+    //   target="_blank"
+    // >
+    //   <span>Read More</span>
+    //   <svg class="landmark__search_icon">
+    //     <use href="${icons}#icon-arrow-right"></use>
+    //   </svg>
+    // </a>
+    // </div>
+    `
     <div class="landmark__address">
       <h2 class="heading--2">ADDRESS DETAILS</h2>
       <ul class="landmark__address_list">
@@ -102,7 +103,7 @@ class LandmarkView extends View {
     return `
     <div class="landmark__image_element">
     <a target="_blank" href="${image}">
-      <img src="${image}" alt="Cinque Terre" width="600" height="400">
+      <img onerror="" src="${image}" alt="Sorry the image can't be loaded" width="600" height="400">
     </a>
   </div>
     `;
@@ -112,6 +113,14 @@ class LandmarkView extends View {
     ["hashchange", "load"].forEach((ev) =>
       window.addEventListener(ev, handler)
     );
+  }
+
+  addHandlerAddBookmark(handler) {
+    this._parentEl.addEventListener("click", function (e) {
+      const btn = e.target.closest(".btn--bookmark");
+      if (!btn) return;
+      handler();
+    });
   }
 }
 

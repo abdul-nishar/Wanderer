@@ -1,9 +1,9 @@
 .landmark {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 0.25fr 0.4fr 3.6fr 1fr 1.4fr;
+  grid-template-rows: 0.25fr 0.4fr 2.3fr 1fr 1.4fr;
   grid-column-gap: 0px;
-  grid-row-gap: 0px;
+  grid-row-gap: 1rem;
 
   &__title {
     grid-area: 1 / 1 / 2 / 2;
@@ -107,6 +107,7 @@
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-rows: 1fr 1fr 1fr;
       list-style: none;
+      max-height: 50rem;
     }
 
     &_element {
@@ -117,6 +118,7 @@
       transition: transform 0.2s;
       border-right: solid 2px #ccc;
       border-bottom: solid 2px #ccc;
+      height: 10rem;
 
       &:hover {
         border: 1px solid $color-primary;
@@ -192,4 +194,8 @@
   @media only screen and (max-width: $bp-medium) {
     width: 70%;
   }
+}
+
+#map {
+  z-index: 0;
 }

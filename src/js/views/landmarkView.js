@@ -64,23 +64,23 @@ class LandmarkView extends View {
     <div class="landmark__image_gallery_container">
        ${this._data.images.map(this._generateMarkupImageGallery).join("")}
     </div>
-    `// <div class="landmark__wiki_data">
-    //   <h2 class="heading--2">DESCRIPTION</h2>
-    //   <h2 class="landmark__wiki_data_text">${
-    //     this._data.wikiData.items[0].htmlSnippet
-    //   }</h2>
-    //   <a
-    //   class="btn--small landmark__search_btn"
-    //   href=${this._data.wikiData.items[0].link}
-    //   target="_blank"
-    // >
-    //   <span>Read More</span>
-    //   <svg class="landmark__search_icon">
-    //     <use href="${icons}#icon-arrow-right"></use>
-    //   </svg>
-    // </a>
-    // </div>
-    `
+    <div class="landmark__wiki_data">
+      <h2 class="heading--2">DESCRIPTION</h2>
+      <h2 class="landmark__wiki_data_text">${
+        this._data.wikiData.items[0].htmlSnippet
+      }</h2>
+      <a
+      class="btn--small landmark__search_btn"
+      href=${this._data.wikiData.items[0].link}
+      target="_blank"
+    >
+      <span>Read More</span>
+      <svg class="landmark__search_icon">
+        <use href="${icons}#icon-arrow-right"></use>
+      </svg>
+    </a>
+    </div>
+    
     <div class="landmark__address">
       <h2 class="heading--2">ADDRESS DETAILS</h2>
       <ul class="landmark__address_list">

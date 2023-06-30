@@ -75,15 +75,15 @@ export const loadLocation = async function (id) {
 
     // // API Call for images
     const imageData = await AJAX(
-      `${GOOGLE_CUSTOM_SEARCH_URL}?key=${GOOGLE_SEARCH_KEY}&cx=368b63b3f469a43b7&q=${data.features[0].properties?.name}+${data.features[0].properties.state}&searchType=image&num=9`
+      `${GOOGLE_CUSTOM_SEARCH_URL}?key=${GOOGLE_SEARCH_KEY}&cx=368b63b3f469a43b7&q=${data.features[0].properties.name}+${data.features[0].properties.state}&searchType=image&num=9`
       // `${SERP_API_URL}?q=$${data.features[0].properties?.name}+${data.features[0].properties.state}&engine=google_images&api_key=${SERP_API_KEY}&ijn=0`
       // `${SERP_API_URL}?engine=google_images&q=Hotel+Victoria+Grand+Himachal+&google_domain=google.com&gl=us&hl=en&api_key=${SERP_API_KEY}`
     );
-
+    console.log(imageData);
     for (let i = 0; i < 9; i++) {
-      state.landmark.images.push(imageData.image_results[0][i].thumbnail);
+      // state.landmark.images.push(imageData);
+      state.landmark.images.push(imageData.items[i].link);
     }
-    // console.log(imageData);
     // // API Call for wikipedia Data
     const wikiData = await AJAX(
       `${GOOGLE_CUSTOM_SEARCH_URL}?key=${GOOGLE_SEARCH_KEY}&cx=368b63b3f469a43b7&q=${data.features[0].properties?.name}&siteSearch=https://en.wikipedia.org&siteSearchFilter=i`

@@ -40,7 +40,6 @@ Wanderer is a web application that helps users discover landmarks and places of 
 
     ```plaintext
     MY_API_KEY=your_geoapify_api_key
-    SERP_API_KEY=your_serpapi_key
     GOOGLE_SEARCH_KEY=your_google_custom_search_api_key
     ```
 

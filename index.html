@@ -9,12 +9,9 @@
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700" rel="stylesheet" />
   <link rel="shortcut icon" href="src/img/favicon.png" type="image/x-icon" />
-
   <link rel="stylesheet" href="src/sass/main.scss" />
-
   <script defer type="module" src="src/js/controller.js"></script>
-
-  <title>Wanderer - Travel your dream location</title>
+  <title>Wanderer - Travel Your Dream Location</title>
 </head>
 
 <body>
@@ -23,8 +20,9 @@
       <img src="src/img/logo.png" alt="Logo" class="header__logo" />
       <form class="search">
         <div class="dropdown">
-          <div class="default_option">Select Search Type</div>
-          <ul class="dropdown_list">
+          <div class="dropdown__default-option">Select Search Type</div>
+          <ul class="dropdown__list">
+            <!-- Dynamically populated list items -->
             <li>accommodation</li>
             <li>accommodation.hotel</li>
             <li>accommodation.hut</li>
@@ -650,11 +648,9 @@
             <li>production.brewery</li>
             <li>production.cheese</li>
             <li>production.pottery</li>
-
-
           </ul>
         </div>
-        <input type=number class="search__field" placeholder="Radius" max="50" min="0" />
+        <input type="number" class="search__field" placeholder="Radius" max="50" min="0" />
         <button class="btn search__btn">
           <svg class="search__icon">
             <use href="src/img/icons.svg#icon-search"></use>
@@ -666,7 +662,7 @@
       <nav class="nav">
         <ul class="nav__list">
           <li class="nav__item">
-            <button class="nav__btn nav__btn--add-recipe">
+            <button class="nav__btn nav__btn--add-location">
               <svg class="nav__icon">
                 <use href="src/img/icons.svg#icon-edit"></use>
               </svg>
@@ -682,30 +678,15 @@
             </button>
             <div class="bookmarks">
               <ul class="bookmarks__list">
-                <div class="message">
+                <div class="bookmarks__message">
                   <div>
                     <svg>
                       <use href="src/img/icons.svg#icon-smile"></use>
                     </svg>
                   </div>
-                  <p>
-                    No bookmarks yet. Find a nice location and bookmark it :)
-                  </p>
+                  <p>No bookmarks yet. Find a nice location and bookmark it :)</p>
                 </div>
-
-                <!-- <li class="preview">
-                    <a class="preview__link" href="#23456">
-                      <figure class="preview__fig">
-                        <img src="src/img/test-1.jpg" alt="Test" />
-                      </figure>
-                      <div class="preview__data">
-                        <h4 class="preview__name">
-                          Pasta with Tomato Cream ...
-                        </h4>
-                        <p class="preview__publisher">The Pioneer Woman</p>
-                      </div>
-                    </a>
-                  </li> -->
+                <!-- Dynamically populated bookmark items -->
               </ul>
             </div>
           </li>
@@ -713,7 +694,7 @@
       </nav>
     </header>
 
-    <div class="search-results">
+    <main class="search-results">
       <ul class="results">
         <div class="message">
           <div>
@@ -723,49 +704,15 @@
           </div>
           <p>Start by searching for a location or a city. Have fun!</p>
         </div>
-        <!-- 
-          <li class="preview">
-            <a class="preview__link preview__link--active" href="#23456">
-              <figure class="preview__fig">
-                <img src="src/img/test-1.jpg" alt="Test" />
-              </figure>
-              <div class="preview__data">
-                <h4 class="preview__title">Pasta with Tomato Cream ...</h4>
-                <p class="preview__publisher">The Pioneer Woman</p>
-                <div class="preview__user-generated">
-                  <svg>
-                    <use href="src/img/icons.svg#icon-user"></use>
-                  </svg>
-                </div>
-              </div>
-            </a>
-          </li>
-           -->
+        <!-- Dynamically populated search result items -->
       </ul>
 
       <div class="pagination">
-        <!-- <button class="btn--inline pagination__btn--prev">
-            <svg class="search__icon">
-              <use href="src/img/icons.svg#icon-arrow-left"></use>
-            </svg>
-            <span>Page 1</span>
-          </button>
-          <button class="btn--inline pagination__btn--next">
-            <span>Page 3</span>
-            <svg class="search__icon">
-              <use href="src/img/icons.svg#icon-arrow-right"></use>
-            </svg>
-          </button> -->
+        <!-- Dynamically populated pagination buttons -->
       </div>
-    </div>
+    </main>
 
-
-    <div id="map"></div>
-    <!-- <form class="radius">
-      <input class="radius-input" type="number" placeholder="Radius of search in km" min="0" max="500" />
-      <input class="submit-btn" type="submit" />
-    </form> -->
-
+    <section id="map"></section>
 
     <div class="landmark">
       <div class="message">
@@ -774,134 +721,21 @@
             <use href="src/img/icons.svg#icon-smile"></use>
           </svg>
         </div>
-        <p>Start by selecting for a result. Good Luck!</p>
+        <p>Start by selecting a result. Good luck!</p>
       </div>
-
-      <!-- <div class="spinner">
-          <svg>
-            <use href="src/img/icons.svg#icon-loader"></use>
-          </svg>
-        </div> -->
-
-      <!-- <div class="error">
-            <div>
-              <svg>
-                <use href="src/img/icons.svg#icon-alert-triangle"></use>
-              </svg>
-            </div>
-            <p>No recipes found for your query. Please try again!</p>
-          </div> -->
-
-      <!--
-        <figure class="recipe__fig">
-          <img src="src/img/test-1.jpg" alt="Tomato" class="recipe__img" />
-          <h1 class="recipe__title">
-            <span>Pasta with tomato cream sauce</span>
-          </h1>
-        </figure>
-
-        <div class="recipe__details">
-          <div class="recipe__info">
-            <svg class="recipe__info-icon">
-              <use href="src/img/icons.svg#icon-clock"></use>
-            </svg>
-            <span class="recipe__info-data recipe__info-data--minutes">45</span>
-            <span class="recipe__info-text">minutes</span>
-          </div>
-          <div class="recipe__info">
-            <svg class="recipe__info-icon">
-              <use href="src/img/icons.svg#icon-users"></use>
-            </svg>
-            <span class="recipe__info-data recipe__info-data--people">4</span>
-            <span class="recipe__info-text">servings</span>
-
-            <div class="recipe__info-buttons">
-              <button class="btn--tiny btn--increase-servings">
-                <svg>
-                  <use href="src/img/icons.svg#icon-minus-circle"></use>
-                </svg>
-              </button>
-              <button class="btn--tiny btn--increase-servings">
-                <svg>
-                  <use href="src/img/icons.svg#icon-plus-circle"></use>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div class="recipe__user-generated">
-            <svg>
-              <use href="src/img/icons.svg#icon-user"></use>
-            </svg>
-          </div>
-          <button class="btn--round">
-            <svg class="">
-              <use href="src/img/icons.svg#icon-bookmark-fill"></use>
-            </svg>
-          </button>
-        </div>
-
-        <div class="recipe__ingredients">
-          <h2 class="heading--2">Recipe ingredients</h2>
-          <ul class="recipe__ingredient-list">
-            <li class="recipe__ingredient">
-              <svg class="recipe__icon">
-                <use href="src/img/icons.svg#icon-check"></use>
-              </svg>
-              <div class="recipe__quantity">1000</div>
-              <div class="recipe__description">
-                <span class="recipe__unit">g</span>
-                pasta
-              </div>
-            </li>
-
-            <li class="recipe__ingredient">
-              <svg class="recipe__icon">
-                <use href="src/img/icons.svg#icon-check"></use>
-              </svg>
-              <div class="recipe__quantity">0.5</div>
-              <div class="recipe__description">
-                <span class="recipe__unit">cup</span>
-                ricotta cheese
-              </div>
-            </li>
-          </ul>
-        </div>
-
-        <div class="recipe__directions">
-          <h2 class="heading--2">How to cook it</h2>
-          <p class="recipe__directions-text">
-            This recipe was carefully designed and tested by
-            <span class="recipe__publisher">The Pioneer Woman</span>. Please check out
-            directions at their website.
-          </p>
-          <a
-            class="btn--small recipe__btn"
-            href="http://thepioneerwoman.com/cooking/pasta-with-tomato-cream-sauce/"
-            target="_blank"
-          >
-            <span>Directions</span>
-            <svg class="search__icon">
-              <use href="src/img/icons.svg#icon-arrow-right"></use>
-            </svg>
-          </a>
-        </div>
-        -->
+      <!-- Dynamically populated landmark content -->
     </div>
   </div>
 
   <div class="overlay hidden"></div>
-  <div class="add-recipe-window hidden">
+  <div class="modal add-recipe-window hidden">
     <button class="btn--close-modal">&times;</button>
     <form class="upload">
-
+      <!-- Form content -->
     </form>
   </div>
 
-
-  <div class="delete-overlay hidden"></div>
-  <div class="delete-recipe-window hidden">
-
+  <div class="modal delete-recipe-window hidden">
     <h1 class="delete__heading">Are you sure you want to delete this recipe?</h1>
     <button class="btn--small btn__confirm btn__yes" data-confirm='yes'><span>YES</span></button>
     <button class="btn--small btn__confirm btn__no" data-confirm='no'><span>NO</span></button>

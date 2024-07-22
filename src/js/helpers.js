@@ -1,28 +1,25 @@
 import { TIMEOUT_SEC } from "./config.js";
 
 /**
- * Returns rejected promise after s seconds
- * @param {*} s Time(in sec) after which to reject the promise
- * @returns {Promise}
+ * Returns a rejected promise after a specified number of seconds.
+ * @param {number} s - Time in seconds after which to reject the promise.
+ * @returns {Promise<Error>} A promise that rejects with an error message.
  */
-
 const timeout = function (s) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
-      reject(new Error(`Request took too long. Timout after ${s} seconds`));
+      reject(new Error(`Request took too long. Timeout after ${s} seconds`));
     }, s * 1000);
   });
 };
 
 /**
- *
- * @param {*} url
- * @param {object}[ uploadData=undefined]
- * @const {fetchRequest} fetchPro fetches a POST request if uploadData is defined else fetches a GET request and stores the response
- * @const {Promise <fetchPro | timeout>} res stores the promise who wins the Promise race(fetchPro, timeout)
- * @returns {Promise <fetchPro | timeout>} returns the resolved promise
+ * Makes an AJAX request to the specified URL.
+ * @param {string} url - The URL to send the request to.
+ * @param {Object} [uploadData=undefined] - Data to be sent with a POST request. If undefined, a GET request is made.
+ * @returns {Promise<Object>} The resolved promise containing the fetched data.
+ * @throws Will throw an error if the request fails or takes too long.
  */
-
 export const AJAX = async function (url, uploadData = undefined) {
   try {
     const fetchPro = uploadData
@@ -31,18 +28,22 @@ export const AJAX = async function (url, uploadData = undefined) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(uploadData),
         })
-      : fetch(url, {
-          method: "GET",
-        });
+      : fetch(url);
+
     // Awaiting the promise which gets resolved first
     const res = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]);
 
-    //Storing the JSON object of the result
-    const data = await res.json();
+    // Check if the response is OK
+    if (!res.ok) throw new Error(`Request failed: ${res.statusText} (${res.status})`);
 
-    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+    // Storing the JSON object of the result
+    const data = await res.json();
     return data;
   } catch (err) {
+    // Handle network errors
+    if (err.name === 'TypeError' && err.message === 'Failed to fetch') {
+      throw new Error('Network error. Please check your internet connection.');
+    }
     throw err;
   }
 };

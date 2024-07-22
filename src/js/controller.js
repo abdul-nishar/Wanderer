@@ -1,99 +1,118 @@
-import * as model from "./model.js";
-import landmarkView from "./views/landmarkView.js";
-import mapView from "./views/mapView.js";
-import searchView from "./views/searchView.js";
-import resultsView from "./views/resultsView.js";
-import paginationView from "./views/paginationView.js";
-import bookmarkView from "./views/bookmarkView.js";
+import 'dotenv/config';
+
+import * as model from './model.js';
+import landmarkView from './views/landmarkView.js';
+import mapView from './views/mapView.js';
+import searchView from './views/searchView.js';
+import resultsView from './views/resultsView.js';
+import paginationView from './views/paginationView.js';
+import bookmarkView from './views/bookmarkView.js';
+
+function removeHash() {
+  if (window.location.hash) {
+      history.replaceState(null, null, window.location.pathname + window.location.search);
+  }
+}
 
 /**
- * Handler function to be called when page is loaded or hash is changed which changes the current landmark view
+ * Loads and renders a specific landmark based on the URL hash.
  * @async
+ * @function controlLoadLandmark
+ * @returns {Promise<void>}
  */
-
 const controlLoadLandmark = async function () {
   try {
-    // Stores the hash change that occurred in the address bar
     const id = window.location.hash.slice(1);
     if (!id) return;
-
-    // Rendering the spinner
     landmarkView.renderSpinner();
-
-    // Awaiting the data from the server to change the state
     await model.loadLocation(id);
-
-    // Rendering the new location based on new state
     landmarkView.render(model.state.landmark);
   } catch (err) {
-    console.error(`${err} 🔴🔴`);
+    console.error(`Error loading landmark: ${err} 🔴🔴`);
   }
 };
 
 /**
- * Handler function to be called when page is loaded to display the map
+ * Initializes and renders the map with the current location.
+ * @function controlLoadMap
+ * @returns {void}
  */
-const controlMap = function () {
+const controlLoadMap = function () {
   try {
-    // Rendering the spinner
     mapView.renderSpinner();
-    // Loads the current location on the map
     mapView.generateMap(model.loadMap);
   } catch (err) {
-    console.error(`${err} 🔴🔴`);
+    console.error(`Error loading map: ${err} 🔴🔴`);
   }
 };
 
+/**
+ * Handles search results based on user query.
+ * @async
+ * @function controlSearchResults
+ * @returns {Promise<void>}
+ */
 const controlSearchResults = async function () {
   try {
-    // Get search query and validating it
     const query = searchView.getQuery();
-    // Load search query
+    if (!query) return;
+    resultsView.renderSpinner();
     await model.loadSearchResults(query);
-    // Render search query
     resultsView.render(model.getSearchResultsPage());
-    // Render initial pagination buttons
     paginationView.render(model.state.search);
   } catch (err) {
-    console.log(err);
+    console.error(`Error fetching search results: ${err} 🔴🔴`);
   }
 };
 
+/**
+ * Handles pagination control for search results.
+ * @function controlPagination
+ * @param {number} goToPage - The page number to navigate to.
+ * @returns {void}
+ */
 const controlPagination = function (goToPage) {
-  // Render new results
   resultsView.render(model.getSearchResultsPage(goToPage));
-  // Render new pagination buttons
   paginationView.render(model.state.search);
 };
 
+/**
+ * Adds or removes a bookmark for the current landmark.
+ * @function controlAddBookmark
+ * @returns {void}
+ */
 const controlAddBookmark = function () {
-  // Changing the bookmarked state of the current recipe
-
-  if (!model.state.landmark.bookmarked) model.addBookmark(model.state.landmark);
-  else model.removeBookmark(model.state.landmark.id);
-
-  // Updating the bookmark button
+  if (!model.state.landmark.bookmarked) {
+    model.addBookmark(model.state.landmark);
+  } else {
+    model.removeBookmark(model.state.landmark.id);
+  }
   landmarkView.update(model.state.landmark);
-
-  // Rendering the bookmarks
   controlBookmarks();
 };
 
+/**
+ * Renders the list of bookmarks.
+ * @function controlBookmarks
+ * @returns {void}
+ */
 const controlBookmarks = function () {
   bookmarkView.render(model.state.bookmarks);
 };
 
 /**
- * Calls the functions to be executed at the start of the page-load
- * Uses Publisher-Subscriber pattern
+ * Initializes the application by setting up event handlers.
+ * @function init
+ * @returns {void}
  */
 const init = function () {
   bookmarkView.addHandlerBookmarks(controlBookmarks);
   landmarkView.addHandlerRender(controlLoadLandmark);
   landmarkView.addHandlerAddBookmark(controlAddBookmark);
-  mapView.addHandler(controlMap);
+  mapView.addHandler(controlLoadMap);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
+  window.addEventListener('load', removeHash);
 };
 
 init();

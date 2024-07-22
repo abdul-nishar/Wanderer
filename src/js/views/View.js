@@ -1,24 +1,26 @@
 import icons from "../../img/icons.svg";
 
 /**
- * Class representing parent which is used to create child classes
+ * Class representing a parent which is used to create child classes.
  */
 export default class View {
   /**
-   * Clears the parent element
+   * Clears the parent element.
    */
   _clear() {
-    this._parentEl.innerHTML = "";
+    if (this._parentEl) {
+      this._parentEl.innerHTML = "";
+    }
   }
 
   /**
-   *
-   * @param {object} data - Returns the markup if render parameter is false else inserts the markup in the parent element
-   * @param {boolean} [render=true] - Optional parameter to return or render the markup
+   * Renders the markup or returns it if render parameter is false.
+   * @param {object} data - Data to be used for generating markup.
+   * @param {boolean} [render=true] - Optional parameter to return or render the markup.
+   * @returns {string|undefined} - Returns the markup if render is false, otherwise undefined.
    */
   render(data, render = true) {
-    if (!data || (Array.isArray(data) && data.length === 0))
-      return this.renderError();
+    if (!data || (Array.isArray(data) && data.length === 0)) return this.renderError();
     this._data = data;
     const markup = this._generateMarkup();
     if (!render) return markup;
@@ -27,8 +29,8 @@ export default class View {
   }
 
   /**
-   *
-   * @param {object} data
+   * Updates the DOM with the new data.
+   * @param {object} data - Data to be used for updating the DOM.
    */
   update(data) {
     this._data = data;
@@ -36,6 +38,7 @@ export default class View {
     const newDOM = document.createRange().createContextualFragment(newMarkup);
     const newElements = Array.from(newDOM.querySelectorAll("*"));
     const curElements = Array.from(this._parentEl.querySelectorAll("*"));
+
     newElements.forEach((newEl, i) => {
       const curEl = curElements[i];
       if (
@@ -54,54 +57,54 @@ export default class View {
   }
 
   /**
-   * Inserts the spinner markup in the parent element
+   * Inserts the spinner markup in the parent element.
    */
   renderSpinner() {
     const markup = `
-          <div class="spinner">
-            <svg>
-              <use href="${icons}#icon-loader"></use>
-            </svg>
-          </div> 
-          `;
+      <div class="spinner">
+        <svg>
+          <use href="${icons}#icon-loader"></use>
+        </svg>
+      </div> 
+    `;
     this._clear();
     this._parentEl.insertAdjacentHTML("afterbegin", markup);
   }
 
   /**
-   * Inserts the error markup in the parent element
-   * @param {string} [message=this._errorMessage]
+   * Inserts the error markup in the parent element.
+   * @param {string} [message=this._errorMessage] - Optional error message to display.
    */
   renderError(message = this._errorMessage) {
     const markup = `
-          <div class="error">
-              <div>
-              <svg>
-                  <use href="${icons}#icon-alert-triangle"></use>
-              </svg>
-              </div>
-              <p>${message}</p>
-          </div> `;
-
+      <div class="error">
+        <div>
+          <svg>
+            <use href="${icons}#icon-alert-triangle"></use>
+          </svg>
+        </div>
+        <p>${message}</p>
+      </div>
+    `;
     this._clear();
     this._parentEl.insertAdjacentHTML("afterbegin", markup);
   }
 
   /**
-   * Inserts the message markup in the parent element
-   * @param {string} [message=this._message]
+   * Inserts the message markup in the parent element.
+   * @param {string} [message=this._message] - Optional message to display.
    */
   renderMessage(message = this._message) {
     const markup = `
-          <div class="message">
-              <div>
-              <svg>
-                  <use href="${icons}#icon-smile"></use>
-              </svg>
-              </div>
-              <p>${message}</p>
-          </div> `;
-
+      <div class="message">
+        <div>
+          <svg>
+            <use href="${icons}#icon-smile"></use>
+          </svg>
+        </div>
+        <p>${message}</p>
+      </div>
+    `;
     this._clear();
     this._parentEl.insertAdjacentHTML("afterbegin", markup);
   }

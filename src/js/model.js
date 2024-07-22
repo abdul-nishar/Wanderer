@@ -1,16 +1,16 @@
+// model.js
 import {
   API_URL_PLACES,
   API_URL_PLACES_DETAILS,
   GOOGLE_CUSTOM_SEARCH_URL,
   GOOGLE_SEARCH_KEY,
   KEY,
-  SERP_API_KEY,
-  SERP_API_URL,
-} from "./config.js";
-import { AJAX, removeJSON } from "./helpers.js";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
-import { MAP_SCALE, RES_PER_PAGE } from "./config.js";
+  MAP_SCALE,
+  RES_PER_PAGE,
+} from './config.js';
+import { AJAX } from './helpers.js';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 /**
  * Stores the current state of the page
@@ -69,24 +69,23 @@ export const loadLocation = async function (id) {
     );
 
     // Storing the awaited response in the state by creating a new object
-    state.landmark = createRecipeObject(data.features[0].properties);
+    state.landmark = createRecipeObject(data.features[0]?.properties);
     state.landmark.images = [];
     console.log(data);
 
     // // API Call for images
     const imageData = await AJAX(
       `${GOOGLE_CUSTOM_SEARCH_URL}?key=${GOOGLE_SEARCH_KEY}&cx=368b63b3f469a43b7&q=${data.features[0].properties.name}+${data.features[0].properties.state}&searchType=image&num=9`
-      // `${SERP_API_URL}?q=$${data.features[0].properties?.name}+${data.features[0].properties.state}&engine=google_images&api_key=${SERP_API_KEY}&ijn=0`
-      // `${SERP_API_URL}?engine=google_images&q=Hotel+Victoria+Grand+Himachal+&google_domain=google.com&gl=us&hl=en&api_key=${SERP_API_KEY}`
     );
     console.log(imageData);
     for (let i = 0; i < 9; i++) {
-      // state.landmark.images.push(imageData);
-      state.landmark.images.push(imageData.items[i].link);
+      if (imageData.items[i] && imageData.items[i].link) {
+        state.landmark.images.push(imageData.items[i].link);
+      }
     }
     // // API Call for wikipedia Data
     const wikiData = await AJAX(
-      `${GOOGLE_CUSTOM_SEARCH_URL}?key=${GOOGLE_SEARCH_KEY}&cx=368b63b3f469a43b7&q=${data.features[0].properties?.name}&siteSearch=https://en.wikipedia.org&siteSearchFilter=i`
+      `${GOOGLE_CUSTOM_SEARCH_URL}?key=${GOOGLE_SEARCH_KEY}&cx=368b63b3f469a43b7&q=${data.features[0].properties.name}+${data.features[0].properties.state}&siteSearch=https://en.wikipedia.org&siteSearchFilter=i`
     );
     console.log(wikiData);
     state.landmark.wikiData = wikiData;
@@ -217,8 +216,6 @@ export const loadSearchResults = async function (query) {
         // ...(rec.key && { key: rec.key }),
       };
     });
-    console.log(data);
-    console.log(state.search.landmarks);
   } catch (err) {
     console.error(`${err} 🔴🔴`);
     throw err;

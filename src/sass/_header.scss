@@ -31,11 +31,11 @@
     border-right: solid 2px $color-grey-light-3;
     position: relative;
 
-    .default_option {
+    .dropdown__default-option {
       text-align: center;
     }
 
-    ul {
+    .dropdown__list {
       position: absolute;
       top: 5rem;
       left: 1rem;
@@ -59,6 +59,7 @@
       &:active {
         display: block;
       }
+
       li {
         padding-bottom: 20px;
         padding-left: 2.8rem;

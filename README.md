@@ -1,5 +1,7 @@
 # Wanderer
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Wanderer is a web application that helps users discover landmarks and places of interest. It utilizes various APIs to fetch location details, images, and related information, providing a comprehensive guide to explore new places.
 
 ## Table of Contents
@@ -86,6 +88,10 @@ Wanderer/
 ├── README.md
 └── .gitignore
 ```
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Contributing
 

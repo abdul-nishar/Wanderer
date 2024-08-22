@@ -41,8 +41,12 @@ Wanderer is a web application that helps users discover landmarks and places of 
 3. Create a `.env` file in the root directory and add your API keys:
 
     ```plaintext
-    MY_API_KEY=your_geoapify_api_key
+    PARCEL_KEY=your_parcel_api_key
     GOOGLE_SEARCH_KEY=your_google_custom_search_api_key
+    API_URL_PLACES=https://api.geoapify.com/v2/places
+    API_URL_PLACES_DETAILS=https://api.geoapify.com/v2/place-details
+    GOOGLE_CUSTOM_SEARCH_URL=https://www.googleapis.com/customsearch/v1/siterestrict
+    ...
     ```
 
 4. Start the development server:
@@ -70,19 +74,31 @@ Wanderer is a web application that helps users discover landmarks and places of 
 ```plaintext
 Wanderer/
 ├── src/
-│   ├── controller.js
-│   ├── model.js
-│   ├── views/
-│   │   ├── landmarkView.js
-│   │   ├── mapView.js
-│   │   ├── searchView.js
-│   │   ├── resultsView.js
-│   │   ├── paginationView.js
-│   │   └── bookmarkView.js
-│   ├── helpers.js
-│   ├── config.js
-│   ├── index.html
-│   └── styles.css
+│   ├── img/
+│   ├── js/
+│   |   ├── views/
+│   │   │   ├── landmarkView.js
+│   │   │   ├── mapView.js
+│   │   │   ├── searchView.js
+│   │   │   ├── resultsView.js
+│   │   │   ├── paginationView.js
+│   │   │   └── bookmarkView.js
+│   │   │
+│   │   ├── helpers.js
+│   │   ├── config.js
+│   │   ├── model.js
+│   │   └── controller.js
+│   │
+│   └── sass/
+│       ├── _base.scss
+│       ├── _components.scss
+│       ├── _delete.scss
+│       ├── _header.scss
+│       ├── _preview.scss
+│       ├── _landmark.scss
+│       ├── _searchResults.scss
+│       ├── _upload.scss
+│       └── main.scss
 ├── .env
 ├── package.json
 ├── README.md

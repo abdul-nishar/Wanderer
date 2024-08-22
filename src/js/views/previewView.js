@@ -12,13 +12,13 @@ class PreviewView extends View {
    */
   _generateMarkup() {
     const id = window.location.hash.slice(1);
-    const { id: dataId, title = "NAMELESS", address } = this._data || {};
+    const { id: dataId, name = "NAMELESS", address } = this._data || {};
 
     return `
       <li class="preview">
         <a class="preview__link ${dataId === id ? "preview__link--active" : ""}" href="#${dataId}">
           <div class="preview__data">
-            <h4 class="preview__title">${title}</h4>
+            <h4 class="preview__title">${name}</h4>
             <p class="preview__publisher">${address}</p>
           </div>
         </a>

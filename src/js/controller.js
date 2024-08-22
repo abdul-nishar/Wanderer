@@ -1,4 +1,5 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config();
 
 import * as model from './model.js';
 import landmarkView from './views/landmarkView.js';

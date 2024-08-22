@@ -1,4 +1,4 @@
-import { TIMEOUT_SEC } from "./config.js";
+import { config } from "./config.js";
 
 /**
  * Returns a rejected promise after a specified number of seconds.
@@ -31,7 +31,7 @@ export const AJAX = async function (url, uploadData = undefined) {
       : fetch(url);
 
     // Awaiting the promise which gets resolved first
-    const res = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]);
+    const res = await Promise.race([fetchPro, timeout(config.timeoutSec)]);
 
     // Check if the response is OK
     if (!res.ok) throw new Error(`Request failed: ${res.statusText} (${res.status})`);

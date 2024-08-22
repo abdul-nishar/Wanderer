@@ -1,13 +1,5 @@
 // model.js
-import {
-  API_URL_PLACES,
-  API_URL_PLACES_DETAILS,
-  GOOGLE_CUSTOM_SEARCH_URL,
-  GOOGLE_SEARCH_KEY,
-  KEY,
-  MAP_SCALE,
-  RES_PER_PAGE,
-} from './config.js';
+import { config } from './config.js';
 import { AJAX } from './helpers.js';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -26,7 +18,7 @@ export const state = {
   search: {
     query: "",
     page: 1,
-    resultsPerPage: RES_PER_PAGE,
+    resultsPerPage: config.resPerPage,
     landmarks: [],
   },
 };
@@ -37,7 +29,7 @@ export const state = {
  * @returns {object}
  */
 
-const createRecipeObject = function (data) {
+const createLandMarkObject = function (data) {
   return {
     id: data.place_id,
     name: data.name,
@@ -65,19 +57,18 @@ export const loadLocation = async function (id) {
   try {
     // Awaiting the API response - API Call for location details
     const data = await AJAX(
-      `${API_URL_PLACES_DETAILS}?features=details&id=${id}&apiKey=${KEY}`
+      `${config.apiUrlPlacesDetails}?features=details&id=${id}&apiKey=${config.key}`
     );
 
     // Storing the awaited response in the state by creating a new object
-    state.landmark = createRecipeObject(data.features[0]?.properties);
+    state.landmark = createLandMarkObject(data.features[0]?.properties);
     state.landmark.images = [];
-    console.log(data);
 
     // // API Call for images
     const imageData = await AJAX(
-      `${GOOGLE_CUSTOM_SEARCH_URL}?key=${GOOGLE_SEARCH_KEY}&cx=368b63b3f469a43b7&q=${data.features[0].properties.name}+${data.features[0].properties.state}&searchType=image&num=9`
+      `${config.googleCustomSearchUrl}?key=${config.googleSearchKey}&cx=368b63b3f469a43b7&q=${data.features[0].properties.name}+${data.features[0].properties.state}&searchType=image&num=9`
     );
-    console.log(imageData);
+
     for (let i = 0; i < 9; i++) {
       if (imageData.items[i] && imageData.items[i].link) {
         state.landmark.images.push(imageData.items[i].link);
@@ -85,9 +76,9 @@ export const loadLocation = async function (id) {
     }
     // // API Call for wikipedia Data
     const wikiData = await AJAX(
-      `${GOOGLE_CUSTOM_SEARCH_URL}?key=${GOOGLE_SEARCH_KEY}&cx=368b63b3f469a43b7&q=${data.features[0].properties.name}+${data.features[0].properties.state}&siteSearch=https://en.wikipedia.org&siteSearchFilter=i`
+      `${config.googleCustomSearchUrl}?key=${config.googleSearchKey}&cx=368b63b3f469a43b7&q=${data.features[0].properties.name}+${data.features[0].properties.state}&siteSearch=https://en.wikipedia.org&siteSearchFilter=i`
     );
-    console.log(wikiData);
+
     state.landmark.wikiData = wikiData;
   } catch (err) {
     console.error(`${err} 🔴🔴`);
@@ -111,7 +102,7 @@ export const loadMap = function (position) {
   // Creating the map and storing it in the state object
   state.mapVariables.map = L.map("map").setView(
     [latitude, longitude],
-    MAP_SCALE
+    config.mapScale
   );
   L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
     attribution:
@@ -200,18 +191,18 @@ export const loadSearchResults = async function (query) {
     _changeMapRadius(areaRadius);
 
     const data = await AJAX(
-      `${API_URL_PLACES}?categories=${
+      `${config.apiUrlPlaces}?categories=${
         query[0]
       }&filter=circle:${longitude},${latitude},${
         areaRadius * 1000
-      }&limit=200&apiKey=${KEY}`
+      }&limit=200&apiKey=${config.key}`
     );
 
     state.search.query = query[0];
     state.search.landmarks = data.features.map((landmark) => {
       return {
         id: landmark.properties.place_id,
-        title: landmark.properties.name,
+        name: landmark.properties.name,
         address: landmark.properties.address_line2,
         // ...(rec.key && { key: rec.key }),
       };
